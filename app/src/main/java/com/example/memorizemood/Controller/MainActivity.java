@@ -13,16 +13,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.memorizemood.History_comment;
 import com.example.memorizemood.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+public class MainActivity extends AppCompatActivity{
 
-    private GestureDetector gestureDetector;
     private ImageButton addNote_imgBtn;
     private ImageButton history_imgBtn;
+    private ImageView moozHappy;
 
 
     @Override
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         addNote_imgBtn = findViewById(R.id.add_note_imageBtn);
         history_imgBtn = findViewById(R.id.history_imageBtn);
-
+        moozHappy = findViewById(R.id.smiley_happy_imageView);
 
         addNote_imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,21 +45,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         history_imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent historyComment =new Intent(MainActivity.this, History_comment.class);
+                Intent historyComment = new Intent(MainActivity.this, History_comment.class);
                 startActivity(historyComment);
             }
         });
-
-        gestureDetector = new GestureDetector(this, new GestureListner());
-
     }
 
-    public MainActivity(){
+    public MainActivity() {
 
     }
 
     // ------------------- START   ADD COMMENT --------------------------
-    public void alertDialogComment(){
+    public void alertDialogComment() {
 
 
         // Modification layout -> View
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             public void onClick(DialogInterface dialog, int which) {
 
                 // When we'll click on button "OK", we'll recover EditText corresponding to our custom view
-                EditText editText = (EditText)alertDialogView.findViewById(R.id.chose_comment_editText);
+                EditText editText = (EditText) alertDialogView.findViewById(R.id.chose_comment_editText);
 
             }
         });
@@ -96,92 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 dialog.cancel();
             }
         });
-
         adb.show();
     }
-
-
-    // ------- END    ADD COMMENT ---------
-
-
-
-
-    // ------- START SWIPE MANAGEMENT -------------
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return gestureDetector.onTouchEvent(motionEvent);
-    }
-
-
-    private final class GestureListner extends GestureDetector.SimpleOnGestureListener {
-
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-
-
-        // Determine the speed of scrolling and the action to be done
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            boolean result = false;
-            try {
-                float diffY = e2.getY() - e1.getY();
-                float diffX = e2.getX() - e1.getX();
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0) {
-                            onSwipeRight();
-                            result = true;
-                        } else {
-                            onSwipeLeft();
-                            result = true;
-                        }
-                    }
-                } else {
-                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffY > 0) {
-                            onSwipeDown();
-                            result = true;
-                        } else {
-                            onSwipeUp();
-                            result = true;
-                        }
-                    }
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            return result;
-        }
-
-    }
-
-    public void onSwipeRight() {
-        Toast.makeText(MainActivity.this,"swipe droite", Toast.LENGTH_LONG).show();
-    }
-
-    public void onSwipeLeft() {
-        Toast.makeText(MainActivity.this,"swipe gauche", Toast.LENGTH_LONG).show();
-    }
-
-    public void onSwipeUp() {
-        Toast.makeText(MainActivity.this,"swipe haut", Toast.LENGTH_LONG).show();
-    }
-
-    public void onSwipeDown() {
-        Toast.makeText(MainActivity.this,"swipe bas", Toast.LENGTH_LONG).show();
-    }
-
-    // -------- END SWIPE MANAGMENT ------------------
-
-
-
-
 
 
 }
