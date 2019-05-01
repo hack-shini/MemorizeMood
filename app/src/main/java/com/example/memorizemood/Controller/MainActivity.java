@@ -3,6 +3,7 @@ package com.example.memorizemood.Controller;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.memorizemood.History_comment;
+import com.example.memorizemood.Model.DetectSwipeGestureListener;
 import com.example.memorizemood.R;
 
 public class MainActivity extends AppCompatActivity{
@@ -24,6 +26,15 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton addNote_imgBtn;
     private ImageButton history_imgBtn;
     private ImageView moozHappy;
+    private GestureDetectorCompat gestureDetectorCompat;
+    private int[] backgroundColors = new int[5];
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        gestureDetectorCompat.onTouchEvent(event);
+        return true;
+    }
 
 
     @Override
@@ -49,6 +60,21 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(historyComment);
             }
         });
+
+
+        gestureDetectorCompat = new GestureDetectorCompat(this, new DetectSwipeGestureListener() {
+            @Override
+            public void onSwipeUp() {
+
+            }
+
+            @Override
+            public void onSwipeDown() {
+
+            }
+        });
+
+        backgroundColors[0] = R.color.banana_yellow;
     }
 
     public MainActivity() {
@@ -96,6 +122,7 @@ public class MainActivity extends AppCompatActivity{
         });
         adb.show();
     }
+
 
 
 }
