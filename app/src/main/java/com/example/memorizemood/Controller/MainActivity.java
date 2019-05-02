@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageView moozHappy;
     private GestureDetectorCompat gestureDetectorCompat;
     private int[] backgroundColors = new int[5];
+    private int[] moodSmiley = new int[5];
 
 
     @Override
@@ -74,7 +75,20 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        // Background color board management
         backgroundColors[0] = R.color.banana_yellow;
+        backgroundColors[1] = R.color.light_sage;
+        backgroundColors[2] = R.color.cornflower_blue_65;
+        backgroundColors[3] = R.color.warm_grey;
+        backgroundColors[4] = R.color.faded_red;
+
+
+        // MoodSmiley board management
+        moodSmiley[0] = R.drawable.smiley_super_happy;
+        moodSmiley[1] = R.drawable.smiley_happy;
+        moodSmiley[2] = R.drawable.smiley_normal;
+        moodSmiley[3] = R.drawable.smiley_sad;
+        moodSmiley[4] = R.drawable.smiley_disappointed;
     }
 
     public MainActivity() {
