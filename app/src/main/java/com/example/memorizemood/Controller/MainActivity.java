@@ -1,21 +1,17 @@
 package com.example.memorizemood.Controller;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.memorizemood.History_comment;
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
@@ -28,7 +24,9 @@ public class MainActivity extends AppCompatActivity{
     private ImageView moozHappy;
     private GestureDetectorCompat gestureDetectorCompat;
     private int[] backgroundColors = new int[5];
+    private int backgroundColorsPosition;
     private int[] moodSmiley = new int[5];
+    private int moodSmileyPosition;
 
 
     @Override
@@ -67,10 +65,15 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onSwipeUp() {
 
+                findViewById(R.id.idRelativeLayout).setBackgroundColor(backgroundColorsPosition);
+                backgroundColorsPosition++;
+
             }
 
             @Override
             public void onSwipeDown() {
+                findViewById(R.id.idRelativeLayout).setBackgroundColor(backgroundColorsPosition);
+                backgroundColorsPosition--;
 
             }
         });
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity{
         backgroundColors[2] = R.color.cornflower_blue_65;
         backgroundColors[3] = R.color.warm_grey;
         backgroundColors[4] = R.color.faded_red;
+        backgroundColorsPosition = backgroundColors[1];
 
 
         // MoodSmiley board management
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity{
         moodSmiley[2] = R.drawable.smiley_normal;
         moodSmiley[3] = R.drawable.smiley_sad;
         moodSmiley[4] = R.drawable.smiley_disappointed;
+        moodSmileyPosition = moodSmiley[1];
     }
 
     public MainActivity() {
