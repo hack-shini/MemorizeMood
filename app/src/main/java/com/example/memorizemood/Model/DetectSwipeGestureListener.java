@@ -13,13 +13,13 @@ public abstract class DetectSwipeGestureListener extends GestureDetector.SimpleO
 
 
 
-    private static final String TAG = "MyActivity";
+    private final String TAG = "MyActivity";
 
     // Minimal x and y axis swipe distance.
-    private static int MIN_SWIPE_DISTANCE_Y = 100;
+    private int MIN_SWIPE_DISTANCE_Y = 100;
 
     // Maximal x and y axis swipe distance.
-    private static int MAX_SWIPE_DISTANCE_Y = 1000;
+    private int MAX_SWIPE_DISTANCE_Y = 1000;
 
     /* This method is invoked when a swipe gesture happened. */
     @Override

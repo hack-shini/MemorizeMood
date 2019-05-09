@@ -15,7 +15,10 @@ import android.widget.ImageView;
 
 import com.example.memorizemood.History_comment;
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
+import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -23,10 +26,12 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton history_imgBtn;
     private ImageView moozHappy;
     private GestureDetectorCompat gestureDetectorCompat;
-    private int[] backgroundColors = new int[5];
-    private int backgroundColorsPosition;
-    private int[] moodSmiley = new int[5];
-    private int moodSmileyPosition;
+    private Mood currentMood;
+    private int indiceMoodPosition = 1;
+    private Mood moods[];
+    final Gson gson = new GsonBuilder().serializeNulls().create();
+
+
 
 
     @Override
@@ -64,39 +69,43 @@ public class MainActivity extends AppCompatActivity{
         gestureDetectorCompat = new GestureDetectorCompat(this, new DetectSwipeGestureListener() {
             @Override
             public void onSwipeUp() {
-
-                findViewById(R.id.idRelativeLayout).setBackgroundColor(backgroundColorsPosition);
-                backgroundColorsPosition++;
-
+                handleSwipe(true);
             }
 
             @Override
             public void onSwipeDown() {
-                findViewById(R.id.idRelativeLayout).setBackgroundColor(backgroundColorsPosition);
-                backgroundColorsPosition--;
-
+               handleSwipe(false);
             }
+
+
         });
 
-        // Background color board management
-        backgroundColors[0] = R.color.banana_yellow;
-        backgroundColors[1] = R.color.light_sage;
-        backgroundColors[2] = R.color.cornflower_blue_65;
-        backgroundColors[3] = R.color.warm_grey;
-        backgroundColors[4] = R.color.faded_red;
-        backgroundColorsPosition = backgroundColors[1];
+        moods = new Mood [] {
 
-
-        // MoodSmiley board management
-        moodSmiley[0] = R.drawable.smiley_super_happy;
-        moodSmiley[1] = R.drawable.smiley_happy;
-        moodSmiley[2] = R.drawable.smiley_normal;
-        moodSmiley[3] = R.drawable.smiley_sad;
-        moodSmiley[4] = R.drawable.smiley_disappointed;
-        moodSmileyPosition = moodSmiley[1];
+                new Mood(R.color.banana_yellow, R.drawable.smiley_super_happy),
+                new Mood(R.color.light_sage, R.drawable.smiley_happy),
+                new Mood(R.color.cornflower_blue_65, R.drawable.smiley_normal),
+                new Mood(R.color.warm_grey, R.drawable.smiley_disappointed),
+                new Mood(R.color.faded_red, R.drawable.smiley_sad),
+        };
     }
 
-    public MainActivity() {
+    private void handleSwipe(boolean isSwipeUp) {
+
+        currentMood = moods[indiceMoodPosition];
+        findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
+        moozHappy.setImageResource(currentMood.getSmileyRes());
+
+
+        if (isSwipeUp) {
+            if (indiceMoodPosition < moods.length - 1) {
+                indiceMoodPosition++;
+            }
+        }else {
+            if (indiceMoodPosition > 0){
+                indiceMoodPosition--;
+            }
+        }
 
     }
 
@@ -115,7 +124,7 @@ public class MainActivity extends AppCompatActivity{
         adb.setView(alertDialogView);
 
         // Title of alertDialog
-        adb.setTitle("Commentaire");
+        adb.setTitle(R.string.comment);
 
         // Modification icon alertDialog
         adb.setIcon(android.R.drawable.ic_dialog_info);

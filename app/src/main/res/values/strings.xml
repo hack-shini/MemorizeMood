@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">MemorizeMood</string>
-    <string name="smiley_sad"></string>
-    <string name="smiley_happy"></string>
-    <string name="ic_history_black"></string>
-    <string name="ic_comment_black"></string>
-    <string name="ic_note_add_black"></string>
     <string name="veuillez_entrer_un_commentaire_svp">Veuillez entrer un commentaire svp</string>
+    <string name="comment">Commentaire</string>
 </resources>
