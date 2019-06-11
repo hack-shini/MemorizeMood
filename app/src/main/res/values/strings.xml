@@ -2,4 +2,6 @@
     <string name="app_name">MemorizeMood</string>
     <string name="veuillez_entrer_un_commentaire_svp">Veuillez entrer un commentaire svp</string>
     <string name="comment">Commentaire</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
 </resources>
