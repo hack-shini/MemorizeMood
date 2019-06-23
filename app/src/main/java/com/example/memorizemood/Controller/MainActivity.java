@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.memorizemood.HistoryActivity;
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
 import com.example.memorizemood.Model.Mood;
+import com.example.memorizemood.Model.MoodHistory;
 import com.example.memorizemood.R;
 import com.example.memorizemood.utils.Keys;
 import com.google.gson.Gson;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity{
     private Mood currentMood;
     private int indiceMoodPosition = 1;
     private Mood moods[];
+    private MoodHistory moodHistory;
+    private String currentComment;
+
     final Gson gson = new GsonBuilder().serializeNulls().create();
 
     // Variable for sharedPreference
@@ -62,12 +66,8 @@ public class MainActivity extends AppCompatActivity{
         moozHappy = findViewById(R.id.smiley_happy_imageView);
 
         // test
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         chooseCommentEditTxt = findViewById(R.id.chose_comment_editText);
-
-
-
         // Fin test
 
 
