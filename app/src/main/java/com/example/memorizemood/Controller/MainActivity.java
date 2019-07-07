@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.memorizemood.HistoryActivity;
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
 import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
