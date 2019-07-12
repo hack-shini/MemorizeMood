@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.memorizemood.R;
 import com.example.memorizemood.utils.Keys;
+import com.example.memorizemood.Controller.MainActivity;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class HistoryActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //
 //        // TEST : Save comment in editText on alertDialog
-//
+
 //
 //        if (sharedPreferences.contains(Keys.COMMENT_KEY)){
 //            String currentComment = sharedPreferences.getString(Keys.COMMENT_KEY,"aucun commentaire trouvé");
@@ -34,20 +35,29 @@ public class HistoryActivity extends AppCompatActivity {
 //        }
 //
 //        // FIN TEST SAVE
+            if (sharedPreferences.contains(Keys.COMMENT_KEY)){
+                genRow();
+            }
 
-        genRow();
-        genRow();
-        genRow();
+
 
     }
 
     private void genRow(){
+
+
         View row = LayoutInflater.from(this).inflate(R.layout.mood_history_row, null);
-        TextView textView = row.findViewById(R.id.historyMoodComment_textView) ;
+        TextView historyMoodComment_textView = row.findViewById(R.id.historyMoodComment_textView) ;
         ImageView messageIcon = row.findViewById(R.id.message_imgView);
 
-        textView.setText("Test");
         messageIcon.setVisibility(View.INVISIBLE);
+
+        if (sharedPreferences.contains(Keys.COMMENT_KEY)){
+            String currentComment = sharedPreferences.getString(Keys.COMMENT_KEY,"aucun commentaire trouvé");
+            historyMoodComment_textView.setText(currentComment);
+            messageIcon.setVisibility(View.VISIBLE);
+        }
+
 
         parentView.addView(row);
     }
