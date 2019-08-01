@@ -35,9 +35,7 @@ public class HistoryActivity extends AppCompatActivity {
 //        }
 //
 //        // FIN TEST SAVE
-            if (sharedPreferences.contains(Keys.COMMENT_KEY)){
-                genRow();
-            }
+
 
 
 

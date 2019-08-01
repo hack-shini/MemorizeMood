@@ -8,21 +8,21 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
 import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
+import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.R;
-import com.example.memorizemood.utils.Keys;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+import static com.example.memorizemood.utils.Keys.LAST_MOOD_KEY;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity{
     private ImageView moozHappy;
 
     private EditText chooseCommentEditTxt;
-    private TextView tv1;
 
     private GestureDetectorCompat gestureDetectorCompat;
     private Mood currentMood;
@@ -39,8 +38,7 @@ public class MainActivity extends AppCompatActivity{
     private Mood moods[];
     private MoodHistory moodHistory;
     private String currentComment;
-
-    final Gson gson = new GsonBuilder().serializeNulls().create();
+    private String lastComment;
 
     // Variable for sharedPreference
     SharedPreferences sharedPreferences;
@@ -147,6 +145,17 @@ public class MainActivity extends AppCompatActivity{
     
     @Override
     protected void onPause() {
+
+        moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
+
+        GsonConverter serialize = new GsonConverter();
+        String json = serialize.serializeToJson(moodHistory);
+
+        sharedPreferences.edit().putString(LAST_MOOD_KEY,json).apply();
+
+        Log.d("tag","json : " + json);
+
+        Log.d("tag","saved json : "  + sharedPreferences.getString(LAST_MOOD_KEY,""));
         super.onPause();
     }
 
@@ -172,7 +181,7 @@ public class MainActivity extends AppCompatActivity{
 
                 // When we'll click on button "OK", we'll recover EditText corresponding to our custom view
                 EditText editText = alertDialogView.findViewById(R.id.chose_comment_editText);
-                sharedPreferences.edit().putString(Keys.COMMENT_KEY, editText.getText().toString()).apply();
+                lastComment =  editText.getText().toString();
             }
         });
 

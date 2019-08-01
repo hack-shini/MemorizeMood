@@ -4,17 +4,17 @@ import com.example.memorizemood.Controller.MainActivity;
 
 public class MoodHistory {
 
+    private int moodPosition;
     private String moodComment;
-    private Mood mood;
     private long moodTime;
 
-    public MoodHistory(Mood mood) {
-        this.mood = mood;
+    public MoodHistory(int position) {
+        this.moodPosition = position;
         this.moodTime = System.currentTimeMillis();
     }
 
-    public MoodHistory(Mood mood ,String comment) {
-        this(mood);
+    public MoodHistory(int position ,String comment) {
+        this(position);
         this.moodComment = comment;
     }
 
