@@ -21,4 +21,12 @@ public class MoodHistory {
     public long getMoodTime() {
         return moodTime;
     }
+
+    public int getMoodPosition() {
+        return moodPosition;
+    }
+
+    public String getMoodComment() {
+        return moodComment;
+    }
 }

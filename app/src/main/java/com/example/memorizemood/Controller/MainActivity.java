@@ -21,7 +21,11 @@ import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
 import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.R;
+import com.example.memorizemood.utils.Utils;
 
+import java.util.ArrayList;
+
+import static com.example.memorizemood.utils.Keys.BOARD_MOOD_HISTORY;
 import static com.example.memorizemood.utils.Keys.LAST_MOOD_KEY;
 
 public class MainActivity extends AppCompatActivity{
@@ -35,10 +39,10 @@ public class MainActivity extends AppCompatActivity{
     private GestureDetectorCompat gestureDetectorCompat;
     private Mood currentMood;
     private int indiceMoodPosition = 1;
-    private Mood moods[];
     private MoodHistory moodHistory;
     private String currentComment;
     private String lastComment;
+    private ArrayList<MoodHistory> boardOfMoodHistory;
 
     // Variable for sharedPreference
     SharedPreferences sharedPreferences;
@@ -100,15 +104,6 @@ public class MainActivity extends AppCompatActivity{
 
         });
 
-        moods = new Mood [] {
-
-                new Mood(R.color.banana_yellow, R.drawable.smiley_super_happy),
-                new Mood(R.color.light_sage, R.drawable.smiley_happy),
-                new Mood(R.color.cornflower_blue_65, R.drawable.smiley_normal),
-                new Mood(R.color.warm_grey, R.drawable.smiley_disappointed),
-                new Mood(R.color.faded_red, R.drawable.smiley_sad),
-        };
-
 
 
 
@@ -118,13 +113,13 @@ public class MainActivity extends AppCompatActivity{
 
     private void handleSwipe(boolean isSwipeUp) {
 
-        currentMood = moods[indiceMoodPosition];
+        currentMood = Utils.moods[indiceMoodPosition];
         findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
         moozHappy.setImageResource(currentMood.getSmileyRes());
 
 
         if (isSwipeUp) {
-            if (indiceMoodPosition < moods.length - 1) {
+            if (indiceMoodPosition < Utils.moods.length - 1) {
                 indiceMoodPosition++;
             }
         }else {
@@ -137,25 +132,38 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onResume() {
-
-
         super.onResume();
     }
 
     
     @Override
     protected void onPause() {
-
-        moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
-
         GsonConverter serialize = new GsonConverter();
-        String json = serialize.serializeToJson(moodHistory);
+        GsonConverter deserialize = new GsonConverter();
+        moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
+        boardOfMoodHistory = new ArrayList<>();
 
-        sharedPreferences.edit().putString(LAST_MOOD_KEY,json).apply();
+        String toJsonMood = serialize.serializeSingleObjectToJson(moodHistory);
+        MoodHistory fromJsonMood = deserialize.deserializeFromJsonToSingleObject(toJsonMood);
 
-        Log.d("tag","json : " + json);
+        sharedPreferences.edit().putString(LAST_MOOD_KEY,toJsonMood).apply();
 
-        Log.d("tag","saved json : "  + sharedPreferences.getString(LAST_MOOD_KEY,""));
+        Utils.isSameDate(fromJsonMood,fromJsonMood);
+
+        boardOfMoodHistory.add(moodHistory);
+
+        if (boardOfMoodHistory.size() >= 7){
+            boardOfMoodHistory.add(0,moodHistory);
+            boardOfMoodHistory.remove(7);
+        }
+
+        String toJsonArray = serialize.serializeListToJson(boardOfMoodHistory);
+
+        sharedPreferences.edit().putString(BOARD_MOOD_HISTORY, toJsonArray).apply();
+
+        Log.e("MainActivity",toJsonArray);
+
+
         super.onPause();
     }
 
