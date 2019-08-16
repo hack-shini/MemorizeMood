@@ -110,21 +110,23 @@ public class MainActivity extends AppCompatActivity{
 
     private void handleSwipe(boolean isSwipeUp) {
 
-        Mood currentMood = Utils.moods[indiceMoodPosition];
-        findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
-        moozHappy.setImageResource(currentMood.getSmileyRes());
-
-
-        if (!isSwipeUp) {
-            if (indiceMoodPosition < Utils.moods.length -1) {
-                indiceMoodPosition++;
+        if (isSwipeUp) {
+            Log.d("MainActivity", "handleSwipe: isSwipeUp");
+            if (indiceMoodPosition > 0) {
+                indiceMoodPosition--;
+                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
         }else {
-            if (indiceMoodPosition > 0){
-                indiceMoodPosition--;
+            Log.d("MainActivity", "handleSwipe: isSwipeDown");
+            if (indiceMoodPosition < Utils.moods.length -1){
+                indiceMoodPosition++;
+                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
         }
 
+        Mood currentMood = Utils.moods[indiceMoodPosition];
+        findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
+        moozHappy.setImageResource(currentMood.getSmileyRes());
     }
 
     @Override
@@ -164,7 +166,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onPause() {
         GsonConverter gsonConverter = new GsonConverter();
+        Log.d("MainActivity", "onPause: indiceMoodPosition = "+indiceMoodPosition);
         MoodHistory moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
+        Log.d("MainActivity", "onPause: moodHistory = "+moodHistory);
 
         String jsonMoodHistory = gsonConverter.serializeSingleObjectToJson(moodHistory);
         sharedPreferences.edit().putString(LAST_MOOD_KEY, jsonMoodHistory).apply();

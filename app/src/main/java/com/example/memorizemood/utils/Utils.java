@@ -10,18 +10,6 @@ import java.util.Calendar;
 
 public class Utils {
 
-    public static boolean isSameDate(MoodHistory moodHistory1, MoodHistory moodHistory2){
-
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTimeInMillis(moodHistory1.getMoodTime());
-
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTimeInMillis(moodHistory2.getMoodTime());
-
-        // If true :
-        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) && calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR);
-    }
-
     public static boolean isMoodFromToday(MoodHistory moodHistory){
 
         Calendar calendar1 = Calendar.getInstance();
@@ -43,6 +31,7 @@ public class Utils {
         new Mood(R.color.warm_grey, R.drawable.smiley_disappointed),
         new Mood(R.color.faded_red, R.drawable.smiley_sad),
     };
+
 
 
 

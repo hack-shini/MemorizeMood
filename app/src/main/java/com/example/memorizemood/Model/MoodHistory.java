@@ -28,4 +28,9 @@ public class MoodHistory {
     public String getMoodComment() {
         return moodComment;
     }
+
+    @Override
+    public String toString() {
+        return "moodPosition = "+moodPosition+" - moodComment = "+moodComment+" - moodTime = "+moodTime;
+    }
 }

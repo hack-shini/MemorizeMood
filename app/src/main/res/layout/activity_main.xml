@@ -13,9 +13,10 @@
         android:id="@+id/smiley_happy_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="50dp"
         android:layout_centerInParent="true"
         android:contentDescription="@null"
-        app:srcCompat="@mipmap/smiley_happy" />
+        app:srcCompat="@drawable/smiley_happy" />
 
     <ImageButton
         android:id="@+id/history_imageBtn"
@@ -25,16 +26,17 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@android:color/transparent"
-        app:srcCompat="@mipmap/ic_history_black" />
+        app:srcCompat="@drawable/ic_history_black" />
 
     <ImageButton
         android:id="@+id/add_note_imageBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:layout_alignParentBottom="true"
+        android:layout_margin="30dp"
+        android:layout_marginBottom="59dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@mipmap/ic_note_add_black" />
+        app:srcCompat="@drawable/ic_note_add_black" />
 
 
 </RelativeLayout>
