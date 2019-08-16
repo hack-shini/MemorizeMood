@@ -3,6 +3,7 @@ package com.example.memorizemood.Controller;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Matrix;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
@@ -30,16 +31,13 @@ import static com.example.memorizemood.utils.Keys.LAST_MOOD_KEY;
 
 public class MainActivity extends AppCompatActivity{
 
-    private ImageButton addNoteImgBtn;
-    private ImageButton historyImgBtn;
+    public static final int MAX_MOODS = 7;
     private ImageView moozHappy;
 
     private EditText chooseCommentEditTxt;
 
     private GestureDetectorCompat gestureDetectorCompat;
-    private Mood currentMood;
     private int indiceMoodPosition = 1;
-    private MoodHistory moodHistory;
     private String currentComment;
     private String lastComment;
     private ArrayList<MoodHistory> boardOfMoodHistory;
@@ -62,9 +60,12 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addNoteImgBtn = findViewById(R.id.add_note_imageBtn);
-        historyImgBtn = findViewById(R.id.history_imageBtn);
+        ImageButton addNoteImgBtn = findViewById(R.id.add_note_imageBtn);
+        ImageButton historyImgBtn = findViewById(R.id.history_imageBtn);
         moozHappy = findViewById(R.id.smiley_happy_imageView);
+        Matrix matrix = new Matrix();
+
+        moozHappy.setImageLevel(0);
 
         // test
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -104,22 +105,18 @@ public class MainActivity extends AppCompatActivity{
 
         });
 
-
-
-
-
-
+        boardOfMoodHistory = new ArrayList<>();
     }
 
     private void handleSwipe(boolean isSwipeUp) {
 
-        currentMood = Utils.moods[indiceMoodPosition];
+        Mood currentMood = Utils.moods[indiceMoodPosition];
         findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
         moozHappy.setImageResource(currentMood.getSmileyRes());
 
 
-        if (isSwipeUp) {
-            if (indiceMoodPosition < Utils.moods.length - 1) {
+        if (!isSwipeUp) {
+            if (indiceMoodPosition < Utils.moods.length -1) {
                 indiceMoodPosition++;
             }
         }else {
@@ -133,35 +130,46 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
+        String json = sharedPreferences.getString(LAST_MOOD_KEY, null);
+        if (json != null) {
+            GsonConverter gsonConverter = new GsonConverter();
+            MoodHistory moodHistory = gsonConverter.deserializeFromJsonToSingleObject(json);
+
+            if (!Utils.isMoodFromToday(moodHistory)) {
+                String jsonBoardOfMoods = sharedPreferences.getString(BOARD_MOOD_HISTORY, null);
+                if (jsonBoardOfMoods != null) {
+                    boardOfMoodHistory = gsonConverter.deserializeJsonToArrayList(jsonBoardOfMoods);
+                }
+
+                boardOfMoodHistory.add(moodHistory);
+
+                if (boardOfMoodHistory.size() >= MAX_MOODS){
+                    boardOfMoodHistory.add(0, moodHistory);
+                    boardOfMoodHistory.remove(MAX_MOODS);
+                }
+
+                String toJsonArray = gsonConverter.serializeListToJson(boardOfMoodHistory);
+                sharedPreferences.edit()
+                        .putString(BOARD_MOOD_HISTORY, toJsonArray)
+                        .putString(LAST_MOOD_KEY, null)
+                        .apply();
+            }
+        }
+
+
     }
 
     
     @Override
     protected void onPause() {
-        GsonConverter serialize = new GsonConverter();
-        GsonConverter deserialize = new GsonConverter();
-        moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
-        boardOfMoodHistory = new ArrayList<>();
+        GsonConverter gsonConverter = new GsonConverter();
+        MoodHistory moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
 
-        String toJsonMood = serialize.serializeSingleObjectToJson(moodHistory);
-        MoodHistory fromJsonMood = deserialize.deserializeFromJsonToSingleObject(toJsonMood);
+        String jsonMoodHistory = gsonConverter.serializeSingleObjectToJson(moodHistory);
+        sharedPreferences.edit().putString(LAST_MOOD_KEY, jsonMoodHistory).apply();
 
-        sharedPreferences.edit().putString(LAST_MOOD_KEY,toJsonMood).apply();
-
-        Utils.isSameDate(fromJsonMood,fromJsonMood);
-
-        boardOfMoodHistory.add(moodHistory);
-
-        if (boardOfMoodHistory.size() >= 7){
-            boardOfMoodHistory.add(0,moodHistory);
-            boardOfMoodHistory.remove(7);
-        }
-
-        String toJsonArray = serialize.serializeListToJson(boardOfMoodHistory);
-
-        sharedPreferences.edit().putString(BOARD_MOOD_HISTORY, toJsonArray).apply();
-
-        Log.e("MainActivity",toJsonArray);
+        //Utils.isSameDate(moodHistory, fromJsonMood);
 
 
         super.onPause();

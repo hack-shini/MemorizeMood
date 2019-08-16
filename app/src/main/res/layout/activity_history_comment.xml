@@ -7,13 +7,6 @@
     tools:context=".Controller.HistoryActivity"
     android:id="@+id/activityHistoryCommentParent">
 
-    <!--<include-->
-        <!--layout="@layout/mood_history_row" /><include-->
-        <!--layout="@layout/mood_history_row" /><include-->
-        <!--layout="@layout/mood_history_row" /><include-->
-        <!--layout="@layout/mood_history_row" />-->
-
-
 
 
 

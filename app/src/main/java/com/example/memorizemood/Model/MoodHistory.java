@@ -1,6 +1,5 @@
 package com.example.memorizemood.Model;
 
-import com.example.memorizemood.Controller.MainActivity;
 
 public class MoodHistory {
 

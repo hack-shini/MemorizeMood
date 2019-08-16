@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,53 +28,47 @@ public class HistoryActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     private LinearLayout parentView;
+    private LinearLayout linearLayout;
+    private TextView historyMoodComment_textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_comment);
         parentView = findViewById(R.id.activityHistoryCommentParent);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//        // TEST : Save comment in editText on alertDialog
+        linearLayout = findViewById(R.id.linearLayout);
 
-//
-//        if (sharedPreferences.contains(Keys.COMMENT_KEY)){
-//            String currentComment = sharedPreferences.getString(Keys.COMMENT_KEY,"aucun commentaire trouvé");
-//            tv1.setText(currentComment);
-//        }
-//
-//        // FIN TEST SAVE
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
 
         String json = sharedPreferences.getString(Keys.BOARD_MOOD_HISTORY,null);
+
         if (json != null){
             GsonConverter gsonConverter = new GsonConverter();
             ArrayList<MoodHistory> boardOfMoodHistory = gsonConverter.deserializeJsonToArrayList(json);
 
-            Log.e("historyActivity",boardOfMoodHistory.size() + "");
             // GENERATION ROW HERE
             for (int i = 0; i < boardOfMoodHistory.size() ;i++){
                 genRow(boardOfMoodHistory.get(i));
             }
         }
-
-
-
-
     }
 
     private void genRow(final MoodHistory moodHistory){
-
 
         View row = LayoutInflater.from(this).inflate(R.layout.mood_history_row, null);
         TextView historyMoodComment_textView = row.findViewById(R.id.historyMoodComment_textView) ;
         ImageView messageIcon = row.findViewById(R.id.message_imgView);
 
-        Mood mood = Utils.moods[moodHistory.getMoodPosition()-1];
+        Mood mood = Utils.moods[moodHistory.getMoodPosition()];
         row.setBackgroundResource(mood.getBackgroundRes());
 
         if (moodHistory.getMoodComment() != null && !moodHistory.getMoodComment().trim().equals("")){
             historyMoodComment_textView.setText(moodHistory.getMoodComment());
+
+
             messageIcon.setVisibility(View.VISIBLE);
             messageIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
