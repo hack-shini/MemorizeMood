@@ -38,5 +38,4 @@
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_note_add_black" />
 
-
 </RelativeLayout>

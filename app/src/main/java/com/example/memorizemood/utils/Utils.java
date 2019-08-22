@@ -7,8 +7,11 @@ import com.example.memorizemood.Model.MoodHistory;
 import com.example.memorizemood.R;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class Utils {
+
+    TextView textView;
 
     public static boolean isMoodFromToday(MoodHistory moodHistory){
 
@@ -32,6 +35,14 @@ public class Utils {
         new Mood(R.color.faded_red, R.drawable.smiley_sad),
     };
 
+    public int dateFromLastComment(int date){
+
+        MoodHistory moodHistory = new MoodHistory();
+        date = (int) moodHistory.getMoodTime();
+        long time = System.currentTimeMillis();
+        long day = TimeUnit.MILLISECONDS.toDays(time);
+        return date;
+    }
 
 
 

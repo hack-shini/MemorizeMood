@@ -12,6 +12,10 @@ public class MoodHistory {
         this.moodTime = System.currentTimeMillis();
     }
 
+    public MoodHistory() {
+        this.moodTime = System.currentTimeMillis();
+    }
+
     public MoodHistory(int position ,String comment) {
         this(position);
         this.moodComment = comment;

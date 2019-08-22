@@ -59,15 +59,15 @@ public class HistoryActivity extends AppCompatActivity {
     private void genRow(final MoodHistory moodHistory){
 
         View row = LayoutInflater.from(this).inflate(R.layout.mood_history_row, null);
-        TextView historyMoodComment_textView = row.findViewById(R.id.historyMoodComment_textView) ;
+        TextView historyMoodComment_textView = row.findViewById(R.id.dateSinceThisMood_textView) ;
         ImageView messageIcon = row.findViewById(R.id.message_imgView);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
 
         Mood mood = Utils.moods[moodHistory.getMoodPosition()];
         row.setBackgroundResource(mood.getBackgroundRes());
 
         if (moodHistory.getMoodComment() != null && !moodHistory.getMoodComment().trim().equals("")){
-            historyMoodComment_textView.setText(moodHistory.getMoodComment());
-
+           // historyMoodComment_textView.setText(moodHistory.getMoodComment());  // AFFICHAGE COMMENTAIRE A TRANSFORMER EN AFFICHAGE DATE DEPUIS LE COMMENTAIRE
 
             messageIcon.setVisibility(View.VISIBLE);
             messageIcon.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +76,8 @@ public class HistoryActivity extends AppCompatActivity {
                     Toast.makeText(HistoryActivity.this,moodHistory.getMoodComment(),Toast.LENGTH_LONG).show();
                 }
             });
+
+            if ()
         }
 
 

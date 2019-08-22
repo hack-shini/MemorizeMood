@@ -4,5 +4,6 @@ public class Keys {
     public static final String COMMENT_KEY = "commentKey"; // Key for the comment of mood's day
     public static final String LAST_MOOD_KEY = "lastMoodKey"; // Key for save the last mood when user quit apk
     public static final String BOARD_MOOD_HISTORY = "boardMoodHistory"; // Key for save ArrayList in MainActivity to HistoryActivity
+    public static final String INDICE_MOOD_POSITION = "indiceMoodPosition"; // Key for save indice in the board of mood to change width & height of linearLayout
 
 }

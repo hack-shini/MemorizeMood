@@ -3,7 +3,6 @@ package com.example.memorizemood.Controller;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.Matrix;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity{
     public static final int MAX_MOODS = 7;
     private ImageView moozHappy;
 
-    private EditText chooseCommentEditTxt;
-
     private GestureDetectorCompat gestureDetectorCompat;
     private int indiceMoodPosition = 1;
     private String currentComment;
@@ -63,17 +60,11 @@ public class MainActivity extends AppCompatActivity{
         ImageButton addNoteImgBtn = findViewById(R.id.add_note_imageBtn);
         ImageButton historyImgBtn = findViewById(R.id.history_imageBtn);
         moozHappy = findViewById(R.id.smiley_happy_imageView);
-        Matrix matrix = new Matrix();
 
         moozHappy.setImageLevel(0);
 
-        // test
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        chooseCommentEditTxt = findViewById(R.id.chose_comment_editText);
-        // Fin test
-
-
-
+        EditText chooseCommentEditTxt = findViewById(R.id.chose_comment_editText);
 
         addNoteImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +97,7 @@ public class MainActivity extends AppCompatActivity{
         });
 
         boardOfMoodHistory = new ArrayList<>();
+
     }
 
     private void handleSwipe(boolean isSwipeUp) {
@@ -166,14 +158,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onPause() {
         GsonConverter gsonConverter = new GsonConverter();
-        Log.d("MainActivity", "onPause: indiceMoodPosition = "+indiceMoodPosition);
         MoodHistory moodHistory = new MoodHistory(indiceMoodPosition, lastComment);
-        Log.d("MainActivity", "onPause: moodHistory = "+moodHistory);
 
         String jsonMoodHistory = gsonConverter.serializeSingleObjectToJson(moodHistory);
         sharedPreferences.edit().putString(LAST_MOOD_KEY, jsonMoodHistory).apply();
-
-        //Utils.isSameDate(moodHistory, fromJsonMood);
 
 
         super.onPause();
