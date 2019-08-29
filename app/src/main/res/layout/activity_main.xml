@@ -9,22 +9,13 @@
     tools:context=".Controller.MainActivity">
 
 
-    <ImageView
-        android:id="@+id/smiley_happy_imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:layout_centerInParent="true"
-        android:contentDescription="@null"
-        app:srcCompat="@drawable/smiley_happy" />
-
     <ImageButton
         android:id="@+id/history_imageBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_margin="30dp"
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_history_black" />
 
@@ -37,5 +28,14 @@
         android:layout_marginBottom="59dp"
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_note_add_black" />
+
+    <ImageView
+        android:id="@+id/smiley_happy_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="50dp"
+        android:contentDescription="@null"
+        app:srcCompat="@drawable/smiley_happy" />
 
 </RelativeLayout>

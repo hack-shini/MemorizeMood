@@ -4,16 +4,16 @@
     android:layout_height="fill_parent"
     android:padding="15dp">
 
+    <EditText
+        android:id="@+id/chose_comment_editText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType=""
+        android:paddingBottom="10dp" />
+
     <TextView
         android:id="@+id/chose_comment_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/veuillez_entrer_un_commentaire_svp" />
-
-    <EditText
-        android:id="@+id/chose_comment_editText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:inputType="" />
 </RelativeLayout>
