@@ -1,10 +1,16 @@
 package com.example.memorizemood.Model;
 
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Toast;
+
+
+import com.example.memorizemood.Controller.MainActivity;
 
 
 public abstract class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+
 
 
     private final String TAG = "MyActivity";

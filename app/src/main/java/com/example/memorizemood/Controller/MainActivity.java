@@ -3,12 +3,12 @@ package com.example.memorizemood.Controller;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +17,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
-import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
+import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.R;
 import com.example.memorizemood.utils.Utils;
 
@@ -28,22 +28,25 @@ import java.util.ArrayList;
 import static com.example.memorizemood.utils.Keys.BOARD_MOOD_HISTORY;
 import static com.example.memorizemood.utils.Keys.LAST_MOOD_KEY;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     public static final int MAX_MOODS = 7;
-    // Variable for sharedPreference
-    SharedPreferences sharedPreferences;
-    MediaPlayer mySong;
-    MediaPlayer mySong2;
     private ImageView moozHappy;
+
     private GestureDetectorCompat gestureDetectorCompat;
     private int indiceMoodPosition = 1;
     private String currentComment;
     private String lastComment;
     private ArrayList<MoodHistory> boardOfMoodHistory;
 
+    // Variable for sharedPreference
+    SharedPreferences sharedPreferences;
+
+
+
+
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event){
         gestureDetectorCompat.onTouchEvent(event);
         return true;
     }
@@ -53,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mySong.create(MainActivity.this, R.);
 
         ImageButton addNoteImgBtn = findViewById(R.id.add_note_imageBtn);
         ImageButton historyImgBtn = findViewById(R.id.history_imageBtn);
         moozHappy = findViewById(R.id.smiley_happy_imageView);
 
         moozHappy.setImageLevel(0);
-
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         EditText chooseCommentEditTxt = findViewById(R.id.chose_comment_editText);
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwipeDown() {
-                handleSwipe(false);
+               handleSwipe(false);
             }
 
 
@@ -101,14 +102,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSwipe(boolean isSwipeUp) {
 
-
         if (isSwipeUp) {
+            Log.d("MainActivity", "handleSwipe: isSwipeUp");
             if (indiceMoodPosition > 0) {
                 indiceMoodPosition--;
+                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
-        } else {
-            if (indiceMoodPosition < Utils.moods.length - 1) {
+        }else {
+            Log.d("MainActivity", "handleSwipe: isSwipeDown");
+            if (indiceMoodPosition < Utils.moods.length -1){
                 indiceMoodPosition++;
+                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
         }
 
@@ -134,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
                 boardOfMoodHistory.add(moodHistory);
 
-                if (boardOfMoodHistory.size() >= MAX_MOODS) {
+                if (boardOfMoodHistory.size() >= MAX_MOODS){
                     boardOfMoodHistory.add(0, moodHistory);
                     boardOfMoodHistory.remove(MAX_MOODS);
                 }
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    
     @Override
     protected void onPause() {
         GsonConverter gsonConverter = new GsonConverter();
@@ -185,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // When we'll click on button "OK", we'll recover EditText corresponding to our custom view
                 EditText editText = alertDialogView.findViewById(R.id.chose_comment_editText);
-                lastComment = editText.getText().toString();
+                lastComment =  editText.getText().toString();
             }
         });
 
@@ -198,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         });
         adb.show();
     }
+
 
 
 }
