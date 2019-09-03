@@ -1,8 +1,10 @@
 package com.example.memorizemood.Controller;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity{
     private String currentComment;
     private String lastComment;
     private ArrayList<MoodHistory> boardOfMoodHistory;
+
+    MediaPlayer mp;
 
     // Variable for sharedPreference
     SharedPreferences sharedPreferences;
@@ -86,11 +90,14 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onSwipeUp() {
                 handleSwipe(true);
+                mediaPlayer();
+
             }
 
             @Override
             public void onSwipeDown() {
                handleSwipe(false);
+               mediaPlayer2();
             }
 
 
@@ -100,19 +107,30 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    private void mediaPlayer2() {
+        mp = new MediaPlayer();
+        Context context = getApplicationContext();
+        mp = MediaPlayer.create(context, R.raw.bipswipedown);
+        mp.start();
+    }
+
+    private void mediaPlayer(){
+        mp = new MediaPlayer();
+        Context context = getApplicationContext();
+        mp = MediaPlayer.create(context, R.raw.bipswipeup);
+        mp.start();
+    }
+
     private void handleSwipe(boolean isSwipeUp) {
 
+
         if (isSwipeUp) {
-            Log.d("MainActivity", "handleSwipe: isSwipeUp");
             if (indiceMoodPosition > 0) {
                 indiceMoodPosition--;
-                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
         }else {
-            Log.d("MainActivity", "handleSwipe: isSwipeDown");
             if (indiceMoodPosition < Utils.moods.length -1){
                 indiceMoodPosition++;
-                Log.d("MainActivity", "handleSwipe: indiceMoodPosition = "+indiceMoodPosition);
             }
         }
 
@@ -120,6 +138,8 @@ public class MainActivity extends AppCompatActivity{
         findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
         moozHappy.setImageResource(currentMood.getSmileyRes());
     }
+
+
 
     @Override
     protected void onResume() {
