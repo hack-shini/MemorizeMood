@@ -35,23 +35,27 @@ public class Utils {
         new Mood(R.color.faded_red, R.drawable.smiley_sad),
     };
 
-    public int dateFromLastComment(int date) {
+    public int dateFromLastComment(MoodHistory moodHistory) {
 
-        Calendar calendar = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
-        MoodHistory moodHistory = new MoodHistory();
+        long diffMillis = System.currentTimeMillis() - moodHistory.getMoodTime();
 
-        calendar.setTimeInMillis(moodHistory.getMoodTime());
-        calendar2.setTimeInMillis(System.currentTimeMillis());
+        return (int) (diffMillis/(1000 * 60 * 60 * 24) + 1);
 
-        long oneDay = 86400000;
+//        Calendar calendar = Calendar.getInstance();
+//        Calendar calendar2 = Calendar.getInstance();
+//        MoodHistory moodHistory = new MoodHistory();
 //
-//        if (timeMood <= oneDay && timeMood < (oneDay*2)){
-//            System.out.println("Hier");
-//            }else if (timeMood <= (oneDay*2) && timeMood < (oneDay*3)){
-//            System.out.println("Avant hier");
-//        }
-        return date;
+//        calendar.setTimeInMillis(moodHistory.getMoodTime());
+//        calendar2.setTimeInMillis(System.currentTimeMillis());
+//
+//        long oneDay = 86400000;
+////
+////        if (timeMood <= oneDay && timeMood < (oneDay*2)){
+////            System.out.println("Hier");
+////            }else if (timeMood <= (oneDay*2) && timeMood < (oneDay*3)){
+////            System.out.println("Avant hier");
+////        }
+//        return date;
     }
 
 

@@ -21,14 +21,14 @@ import com.example.memorizemood.utils.Keys;
 import com.example.memorizemood.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HistoryActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     private LinearLayout parentView;
-    private LinearLayout linearLayout;
-    private TextView historyMoodComment_textView;
     private int screenWidth;
+    private String[] diffDaysArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,12 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history_comment);
         parentView = findViewById(R.id.activityHistoryCommentParent);
 
-        linearLayout = findViewById(R.id.linearLayout);
         screenWidth = getWindowManager().getDefaultDisplay().getWidth();
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        diffDaysArray = getResources().getStringArray(R.array.days_array);
 
         int visibleRowCount = 0;
 
@@ -84,7 +85,13 @@ public class HistoryActivity extends AppCompatActivity {
 
         Mood mood = Utils.moods[moodHistory.getMoodPosition()];
         row.setBackgroundResource(mood.getBackgroundRes());
-        dateSinceThisMood.setText(String.valueOf(utils));
+        int days = utils.dateFromLastComment(moodHistory);
+        if (days <= 7){
+            dateSinceThisMood.setText(diffDaysArray[days]);
+        }else {
+            dateSinceThisMood.setText(getString(R.string.x_days, days));
+        }
+
 
 
         if (moodHistory.getMoodComment() != null && !moodHistory.getMoodComment().trim().equals("")) {

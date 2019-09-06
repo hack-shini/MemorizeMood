@@ -4,4 +4,17 @@
     <string name="comment">Commentaire</string>
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
+    <string name="x_days">Il y a %1$d jours</string>
+
+    <string-array name="days_array">
+        <item>Aujourd\'hui</item>
+        <item>Hier</item>
+        <item>Avant-Hier</item>
+        <item>Il y a trois jours</item>
+        <item>Il y a quatre jours</item>
+        <item>Il y a cinq jours</item>
+        <item>Il y a six jours</item>
+        <item>Il y a une semaine</item>
+    </string-array>
+
 </resources>
