@@ -7,6 +7,7 @@
     <string name="x_days">Il y a %1$d jours</string>
 
     <string-array name="days_array">
+        <item>Item</item>
         <item>Aujourd\'hui</item>
         <item>Hier</item>
         <item>Avant-Hier</item>

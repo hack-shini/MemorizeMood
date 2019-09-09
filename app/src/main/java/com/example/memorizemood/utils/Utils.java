@@ -1,17 +1,12 @@
 package com.example.memorizemood.utils;
 
-import android.widget.TextView;
-
 import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
 import com.example.memorizemood.R;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 public class Utils {
-
-    TextView textView;
 
     public static boolean isMoodFromToday(MoodHistory moodHistory){
 
@@ -41,21 +36,6 @@ public class Utils {
 
         return (int) (diffMillis/(1000 * 60 * 60 * 24) + 1);
 
-//        Calendar calendar = Calendar.getInstance();
-//        Calendar calendar2 = Calendar.getInstance();
-//        MoodHistory moodHistory = new MoodHistory();
-//
-//        calendar.setTimeInMillis(moodHistory.getMoodTime());
-//        calendar2.setTimeInMillis(System.currentTimeMillis());
-//
-//        long oneDay = 86400000;
-////
-////        if (timeMood <= oneDay && timeMood < (oneDay*2)){
-////            System.out.println("Hier");
-////            }else if (timeMood <= (oneDay*2) && timeMood < (oneDay*3)){
-////            System.out.println("Avant hier");
-////        }
-//        return date;
     }
 
 

@@ -41,6 +41,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+
         diffDaysArray = getResources().getStringArray(R.array.days_array);
 
         int visibleRowCount = 0;
@@ -80,11 +81,10 @@ public class HistoryActivity extends AppCompatActivity {
         TextView dateSinceThisMood = row.findViewById(R.id.dateSinceThisMood_textView);
         ImageView messageIcon = row.findViewById(R.id.message_imgView);
         Utils utils = new Utils();
-        // utils.dateFromLastComment(moodHistory.getMoodTime());
-
 
         Mood mood = Utils.moods[moodHistory.getMoodPosition()];
         row.setBackgroundResource(mood.getBackgroundRes());
+
         int days = utils.dateFromLastComment(moodHistory);
         if (days <= 7){
             dateSinceThisMood.setText(diffDaysArray[days]);

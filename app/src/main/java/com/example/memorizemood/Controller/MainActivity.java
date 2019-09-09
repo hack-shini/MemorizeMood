@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity{
 
     private GestureDetectorCompat gestureDetectorCompat;
     private int indiceMoodPosition = 1;
-    private String currentComment;
     private String lastComment;
     private ArrayList<MoodHistory> boardOfMoodHistory;
 
@@ -64,11 +63,9 @@ public class MainActivity extends AppCompatActivity{
         ImageButton addNoteImgBtn = findViewById(R.id.add_note_imageBtn);
         ImageButton historyImgBtn = findViewById(R.id.history_imageBtn);
         moozHappy = findViewById(R.id.smiley_happy_imageView);
-
         moozHappy.setImageLevel(0);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        EditText chooseCommentEditTxt = findViewById(R.id.chose_comment_editText);
 
         addNoteImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,11 +153,12 @@ public class MainActivity extends AppCompatActivity{
                     boardOfMoodHistory = gsonConverter.deserializeJsonToArrayList(jsonBoardOfMoods);
                 }
 
-                boardOfMoodHistory.add(moodHistory);
-
-                if (boardOfMoodHistory.size() >= MAX_MOODS){
+                if (boardOfMoodHistory.size() < MAX_MOODS){
                     boardOfMoodHistory.add(0, moodHistory);
-                    boardOfMoodHistory.remove(MAX_MOODS);
+
+                }else if (boardOfMoodHistory.size() == MAX_MOODS) {
+                    boardOfMoodHistory.remove(0);
+                    boardOfMoodHistory.add(0, moodHistory);
                 }
 
                 String toJsonArray = gsonConverter.serializeListToJson(boardOfMoodHistory);
