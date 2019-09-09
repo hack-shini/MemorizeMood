@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 public class Utils {
 
+    // Method for check if mood is in the same day. If no -> Save last mood
     public static boolean isMoodFromToday(MoodHistory moodHistory){
 
         Calendar calendar1 = Calendar.getInstance();
@@ -21,6 +22,7 @@ public class Utils {
     }
 
 
+    // Array of background color and mood
    public static Mood[] moods = new Mood[] {
 
         new Mood(R.color.banana_yellow, R.drawable.smiley_super_happy),

@@ -5,12 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,9 +18,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.memorizemood.Model.DetectSwipeGestureListener;
+import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.Model.Mood;
 import com.example.memorizemood.Model.MoodHistory;
-import com.example.memorizemood.Model.GsonConverter;
 import com.example.memorizemood.R;
 import com.example.memorizemood.utils.Utils;
 
@@ -45,9 +44,6 @@ public class MainActivity extends AppCompatActivity{
     // Variable for sharedPreference
     SharedPreferences sharedPreferences;
 
-
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event){
         gestureDetectorCompat.onTouchEvent(event);
@@ -67,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Add comment management
         addNoteImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,12 +80,15 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
+
+        // --- START --- Methods for swipeUp and swipeDown
+
         gestureDetectorCompat = new GestureDetectorCompat(this, new DetectSwipeGestureListener() {
+
             @Override
             public void onSwipeUp() {
                 handleSwipe(true);
                 mediaPlayer();
-
             }
 
             @Override
@@ -97,30 +97,14 @@ public class MainActivity extends AppCompatActivity{
                mediaPlayer2();
             }
 
-
         });
+        // --- END --- Methods for swipeUp and swipeDown
 
         boardOfMoodHistory = new ArrayList<>();
-
     }
 
-    private void mediaPlayer2() {
-        mp = new MediaPlayer();
-        Context context = getApplicationContext();
-        mp = MediaPlayer.create(context, R.raw.bipswipedown);
-        mp.start();
-    }
-
-    private void mediaPlayer(){
-        mp = new MediaPlayer();
-        Context context = getApplicationContext();
-        mp = MediaPlayer.create(context, R.raw.bipswipeup);
-        mp.start();
-    }
-
+    // Method for change background color and mood with swipe up/down
     private void handleSwipe(boolean isSwipeUp) {
-
-
         if (isSwipeUp) {
             if (indiceMoodPosition > 0) {
                 indiceMoodPosition--;
@@ -137,12 +121,32 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+    // --- START --- Methods for sound managment
+
+    private void mediaPlayer2() {
+        mp = new MediaPlayer();
+        Context context = getApplicationContext();
+        mp = MediaPlayer.create(context, R.raw.bipswipedown);
+        mp.start();
+    }
+
+    private void mediaPlayer(){
+        mp = new MediaPlayer();
+        Context context = getApplicationContext();
+        mp = MediaPlayer.create(context, R.raw.bipswipeup);
+        mp.start();
+    }
+    // --- END --- Methods for sound managment
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
         String json = sharedPreferences.getString(LAST_MOOD_KEY, null);
+
+        // --- START --- Mangament for add mood in boardOfMoods
+
         if (json != null) {
             GsonConverter gsonConverter = new GsonConverter();
             MoodHistory moodHistory = gsonConverter.deserializeFromJsonToSingleObject(json);
@@ -169,7 +173,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
 
-
+        // --- END --- Mangament for add mood in boardOfMoods
     }
 
     
@@ -180,8 +184,6 @@ public class MainActivity extends AppCompatActivity{
 
         String jsonMoodHistory = gsonConverter.serializeSingleObjectToJson(moodHistory);
         sharedPreferences.edit().putString(LAST_MOOD_KEY, jsonMoodHistory).apply();
-
-
         super.onPause();
     }
 

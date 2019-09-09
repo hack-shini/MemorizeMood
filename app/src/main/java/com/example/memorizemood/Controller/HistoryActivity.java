@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.example.memorizemood.utils.Keys;
 import com.example.memorizemood.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -34,19 +32,21 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_comment);
+
+        // ID of activity_history_comment.xml
         parentView = findViewById(R.id.activityHistoryCommentParent);
 
+        // For found width of phone
         screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
+        // Variable for acces on array days_array in R.Values.String
         diffDaysArray = getResources().getStringArray(R.array.days_array);
 
-        int visibleRowCount = 0;
-
         String json = sharedPreferences.getString(Keys.BOARD_MOOD_HISTORY, null);
+
+        int visibleRowCount = 0;
         if (json != null) {
             GsonConverter gsonConverter = new GsonConverter();
             ArrayList<MoodHistory> boardOfMoodHistory = gsonConverter.deserializeJsonToArrayList(json);
@@ -64,6 +64,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    // Generate invisible row on historyActivity for the rows are the same size
     private void invisibleRow() {
 
         View row = LayoutInflater.from(this).inflate(R.layout.mood_history_row, null);
@@ -75,8 +76,9 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
+    // That method generate a row with background color with a different color and size
+    // & display (or not display) icon msg
     private void genRow(final MoodHistory moodHistory) {
-
         View row = LayoutInflater.from(this).inflate(R.layout.mood_history_row, null);
         TextView dateSinceThisMood = row.findViewById(R.id.dateSinceThisMood_textView);
         ImageView messageIcon = row.findViewById(R.id.message_imgView);
@@ -92,12 +94,8 @@ public class HistoryActivity extends AppCompatActivity {
             dateSinceThisMood.setText(getString(R.string.x_days, days));
         }
 
-
-
+        // Display message Icon if getMoodComment != null
         if (moodHistory.getMoodComment() != null && !moodHistory.getMoodComment().trim().equals("")) {
-            // historyMoodComment_textView.setText(moodHistory.getMoodComment());  // AFFICHAGE COMMENTAIRE A TRANSFORMER EN AFFICHAGE DATE DEPUIS LE COMMENTAIRE
-
-
             messageIcon.setVisibility(View.VISIBLE);
             messageIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,11 +103,12 @@ public class HistoryActivity extends AppCompatActivity {
                     Toast.makeText(HistoryActivity.this, moodHistory.getMoodComment(), Toast.LENGTH_LONG).show();
                 }
             });
-
         }
 
 
-        int size = 1;
+        int size = 1; // Variable for size of mood in activity.xml
+
+        // size management according to the mood of the day
         if (moodHistory.getMoodPosition() == 0) {
             size = screenWidth;
         } else if (moodHistory.getMoodPosition() == 1) {
@@ -122,12 +121,8 @@ public class HistoryActivity extends AppCompatActivity {
             size = (int) (screenWidth / 2.8);
         }
 
-
         row.setLayoutParams(new LinearLayout.LayoutParams(size, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
         parentView.addView(row);
-        Log.d("HistoryActivity", "Valeur de size : " + size);
-
-
     }
 
 }

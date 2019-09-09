@@ -1,19 +1,13 @@
 package com.example.memorizemood.Model;
 
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.Toast;
-
-
-import com.example.memorizemood.Controller.MainActivity;
 
 
 public abstract class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
 
 
-
-    private final String TAG = "MyActivity";
+    // ----------- METHOD FOR SWIPE GESTION ------------------
 
     // Minimal x and y axis swipe distance.
     private int MIN_SWIPE_DISTANCE_Y = 100;

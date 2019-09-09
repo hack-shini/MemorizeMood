@@ -12,10 +12,6 @@ public class MoodHistory {
         this.moodTime = System.currentTimeMillis();
     }
 
-    public MoodHistory() {
-        this.moodTime = System.currentTimeMillis();
-    }
-
     public MoodHistory(int position ,String comment) {
         this(position);
         this.moodComment = comment;
@@ -33,8 +29,5 @@ public class MoodHistory {
         return moodComment;
     }
 
-    @Override
-    public String toString() {
-        return "moodPosition = "+moodPosition+" - moodComment = "+moodComment+" - moodTime = "+moodTime;
-    }
+
 }
