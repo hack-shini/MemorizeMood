@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity{
 
                 }else if (boardOfMoodHistory.size() == MAX_MOODS) {
                     boardOfMoodHistory.remove(0);
-                    boardOfMoodHistory.add(0, moodHistory);
+                    boardOfMoodHistory.add(moodHistory);
                 }
 
                 String toJsonArray = gsonConverter.serializeListToJson(boardOfMoodHistory);

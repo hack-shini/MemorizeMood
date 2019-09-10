@@ -112,13 +112,13 @@ public class HistoryActivity extends AppCompatActivity {
         if (moodHistory.getMoodPosition() == 0) {
             size = screenWidth;
         } else if (moodHistory.getMoodPosition() == 1) {
-            size = (int) (screenWidth / 1.2);
-        } else if (moodHistory.getMoodPosition() == 2) {
             size = (int) (screenWidth / 1.4);
-        } else if (moodHistory.getMoodPosition() == 3) {
+        } else if (moodHistory.getMoodPosition() == 2) {
             size = (int) (screenWidth / 1.6);
+        } else if (moodHistory.getMoodPosition() == 3) {
+            size = (int) (screenWidth / 1.8);
         } else if (moodHistory.getMoodPosition() == 4) {
-            size = (int) (screenWidth / 2.8);
+            size = (int) (screenWidth / 2.0);
         }
 
         row.setLayoutParams(new LinearLayout.LayoutParams(size, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
