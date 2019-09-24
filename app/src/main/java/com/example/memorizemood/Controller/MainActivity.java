@@ -114,12 +114,15 @@ public class MainActivity extends AppCompatActivity{
                 indiceMoodPosition++;
             }
         }
+        showMood(indiceMoodPosition);
 
-        Mood currentMood = Utils.moods[indiceMoodPosition];
+    }
+
+    private void showMood(int moodPosition){
+        Mood currentMood = Utils.moods[moodPosition];
         findViewById(R.id.idRelativeLayout).setBackgroundResource(currentMood.getBackgroundRes());
         moozHappy.setImageResource(currentMood.getSmileyRes());
     }
-
 
     // --- START --- Methods for sound managment
 
@@ -170,6 +173,9 @@ public class MainActivity extends AppCompatActivity{
                         .putString(BOARD_MOOD_HISTORY, toJsonArray)
                         .putString(LAST_MOOD_KEY, null)
                         .apply();
+            }else{
+                indiceMoodPosition = moodHistory.getMoodPosition();
+                showMood(indiceMoodPosition);
             }
         }
 

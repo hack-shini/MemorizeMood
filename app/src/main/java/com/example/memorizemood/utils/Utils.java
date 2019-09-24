@@ -36,6 +36,9 @@ public class Utils {
 
         long diffMillis = System.currentTimeMillis() - moodHistory.getMoodTime();
 
+        if (diffMillis < 0 ){
+            diffMillis = 0;
+        }
         return (int) (diffMillis/(1000 * 60 * 60 * 24) + 1);
 
     }
